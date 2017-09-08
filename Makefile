@@ -2,13 +2,19 @@ CC=gcc
 AR=ar
 CFLAGS=-Wall -Werror -O0 -g -m64
 LFLAGS=-lcb -L.
+APP=test
 LIBS=libcb.a
-OBJS=cyclic_buffer.o
+OBJS=cyclic_buffer.o test.o
 
 %.o: %.c
 	$(CC) -o $@ $(CFLAGS) -c $<
 
-.PHONY: clean cleanall
+.PHONY: all clean cleanall
+
+all: $(APP)
+
+$(APP): $(OBJS) $(LIBS)
+	$(CC) -o $@ $(OBJS) $(LFLAGS)
 
 libcb.a: cyclic_buffer.o
 	$(AR) -r $@ $<
